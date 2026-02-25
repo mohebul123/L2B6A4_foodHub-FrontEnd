@@ -1,7 +1,11 @@
+import LoginForm from "@/components/modules/auth/LoginForm";
+
+
 export default function LoginPage() {
   return (
     <div>
-      <h1>This is login Page</h1>
+      <LoginForm></LoginForm>
+     
     </div>
   );
 }
