@@ -3,6 +3,29 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
+export const createUser = async (userData: FieldValues) => {
+  console.log(userData);
+  const { confirmPassword, ...users } = userData;
+  console.log("test", users);
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(users),
+      },
+    );
+    const result = await res.json();
+    console.log(result);
+    return result;
+  } catch (er) {
+    console.log(er);
+  }
+};
+
 export const loginUser = async (userData: FieldValues) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {

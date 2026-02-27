@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 
@@ -18,6 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { createUser } from "@/app/service/auth"
+import { useRouter } from "next/navigation"
+
 
 const registerSchema = z
   .object({
@@ -25,7 +29,7 @@ const registerSchema = z
     email: z.string().email("Please enter a valid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
-    role: z.enum(["customer", "provider"], {
+    role: z.enum(["CUSTOMER", "PROVIDER"], {
       message: "Please select a role",
     }),
   })
@@ -37,6 +41,7 @@ const registerSchema = z
 type RegisterFormValues = z.infer<typeof registerSchema>
 
 export default function RegisterForm() {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -46,18 +51,42 @@ export default function RegisterForm() {
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      role: "customer",
+      role: "CUSTOMER",
     },
   })
 
   const role = watch("role")
 
   const onSubmit = async (data: RegisterFormValues) => {
-    await new Promise((r) => setTimeout(r, 500))
-    toast.success(
-      `Account created for ${data.name} as a ${data.role}. Welcome to FoodHub!`
-    )
+    try{
+        const res = await createUser(data);
+        console.log(res);
+         if(res.success){ 
+            toast.success(
+           `Account created for ${data.name} as a ${data.role}. Welcome to FoodHub!`
+         );
+         router.push("/login");
+         
+         }
+    }catch(error: any){
+         toast.error(error.message || "An error occurred");
+    }
   }
+
+//    const onSubmit = async (data: LoginFormValues) => {
+//                  try {
+//         const res = await loginUser(data);
+//         console.log(res);
+//         if (res.success) { 
+//           toast.success(res.message);
+//           router.push("/");
+//         } else {
+//           toast.success (res.message);
+//         }
+//       } catch(error : any){
+//                   toast.error(error.message || "An error occurred");
+//               }
+//     }
 
   return (
     <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-12">
@@ -110,17 +139,17 @@ export default function RegisterForm() {
               <Select
                 value={role}
                 onValueChange={(v) =>
-                  setValue("role", v as "customer" | "provider")
+                  setValue("role", v as "CUSTOMER" | "PROVIDER")
                 }
               >
                 <SelectTrigger id="role">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="customer">
+                  <SelectItem value="CUSTOMER">
                     Order meals (Customer)
                   </SelectItem>
-                  <SelectItem value="provider">
+                  <SelectItem value="PROVIDER">
                     Sell meals (Provider)
                   </SelectItem>
                 </SelectContent>
