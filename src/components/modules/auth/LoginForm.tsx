@@ -13,15 +13,15 @@ import { Label } from "@/components/ui/label"
 import { loginUser } from "@/app/service/auth"
 import { useRouter } from "next/navigation"
 
+
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  email: z.email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
+
+
 type LoginFormValues = z.infer<typeof loginSchema>
-
-
-
 
 export default function LoginForm() {
   const router = useRouter();
@@ -36,14 +36,15 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormValues) => {
                try {
       const res = await loginUser(data);
-      if (res.success) {
+      console.log(res);
+      if (res.success) { 
         toast.success(res.message);
         router.push("/");
       } else {
-        toast.success(res.message);
+        toast.success (res.message);
       }
     } catch(error : any){
-                toast.error(error);
+                toast.error(error.message || "An error occurred");
             }
   }
 //    async function onSubmit(data: z.infer<typeof formSchema>) {
@@ -56,9 +57,10 @@ export default function LoginForm() {
 //         toast.success(res.message);
 //       }
 //     } catch (error: any) {
-//       toast.error(error);
+//       toast.error(error.message || "An error occurred");
 //     }
 //   }
+
 
 
 

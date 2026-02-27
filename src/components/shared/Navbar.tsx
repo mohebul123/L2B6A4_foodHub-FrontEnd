@@ -1,9 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Menu, ShoppingCart, X, UtensilsCrossed } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getUser, UserLogOut } from "@/app/service/auth"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -12,7 +13,20 @@ const navLinks = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-
+    const [user,setUser] = useState(null);
+    const [loading,setLoading] = useState(false);
+  
+  useEffect(()=>{
+    const getCurrentUser = async () =>{
+      const userData = await getUser();
+      setUser(userData);
+    }
+    getCurrentUser();
+  },[loading])
+  const handleLogout = ()=>{
+    UserLogOut();
+    setLoading(true)
+  }
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
@@ -46,12 +60,17 @@ export function Navbar() {
               <ShoppingCart className="h-5 w-5" />
             </Link>
           </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/register">Register</Link>
-          </Button>
+          {user? (<Button onClick={handleLogout}>Logout</Button>): (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
+          
         </div>
 
         {/* Mobile Toggle */}

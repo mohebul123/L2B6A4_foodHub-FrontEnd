@@ -1,7 +1,9 @@
+import RegisterForm from "@/components/modules/auth/registerForm";
+
 export default function RegisterPage() {
   return (
     <div>
-      <h1>This is register Pager</h1>
+      <RegisterForm></RegisterForm>
     </div>
   );
 }
