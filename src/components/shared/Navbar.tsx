@@ -6,6 +6,10 @@ import { Menu, ShoppingCart, X, UtensilsCrossed } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getUser, UserLogOut } from "@/app/service/auth"
 
+interface User {
+  role: "ADMIN" | "CUSTOMER" | "PROVIDER"
+}
+
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/meals", label: "Browse Meals" },
@@ -13,8 +17,8 @@ const navLinks = [
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-    const [user,setUser] = useState(null);
-    const [loading,setLoading] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(false);
   
   useEffect(()=>{
     const getCurrentUser = async () =>{
@@ -27,6 +31,7 @@ export function Navbar() {
     UserLogOut();
     setLoading(true)
   }
+  
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
@@ -60,16 +65,38 @@ export function Navbar() {
               <ShoppingCart className="h-5 w-5" />
             </Link>
           </Button>
-          {user? (<Button onClick={handleLogout}>Logout</Button>): (
-            <>
-              <Button variant="ghost" asChild>
-                <Link href="/login">Login</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/register">Register</Link>
-              </Button>
-            </>
-          )}
+{user ? (
+  <>
+    {user.role === "ADMIN" && (
+      <Button asChild>
+        <Link href="/admin-dashboard">Dashboard</Link>
+      </Button>
+    )}
+
+    {user.role === "CUSTOMER" && (
+      <Button asChild>
+        <Link href="/customer-dashboard">Dashboard</Link>
+      </Button>
+    )}
+
+    {user.role === "PROVIDER" && (
+      <Button asChild>
+        <Link href="/provider-dashboard">Dashboard</Link>
+      </Button>
+    )}
+
+    <Button onClick={handleLogout}>Logout</Button>
+  </>
+) : (
+  <>
+    <Button variant="ghost" asChild>
+      <Link href="/login">Login</Link>
+    </Button>
+    <Button asChild>
+      <Link href="/register">Register</Link>
+    </Button>
+  </>
+)}
           
         </div>
 
