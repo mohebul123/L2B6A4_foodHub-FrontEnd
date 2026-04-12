@@ -1,7 +1,48 @@
-export default function ProviderPage() {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+export default function ProviderMeals() {
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    // Backend: GET /meals/my-meals (Filter by providerId in backend)
+    fetch("http://localhost:5000/api/meals") 
+      .then(res => res.json())
+      .then(data => setMeals(data.data));
+  }, []);
+
   return (
-    <div>
-      <h1>This is provider page component</h1>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold">My Kitchen 🍳</h2>
+        <Button className="bg-orange-600">Add New Meal</Button>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Meal Name</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Action</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {meals.map((meal: any) => (
+            <TableRow key={meal.id}>
+              <TableCell className="font-medium">{meal.title}</TableCell>
+              <TableCell>৳ {meal.price}</TableCell>
+              <TableCell>{meal.isAvailable ? "✅ Available" : "❌ Out of Stock"}</TableCell>
+              <TableCell>
+                <Button variant="outline" size="sm">Edit</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

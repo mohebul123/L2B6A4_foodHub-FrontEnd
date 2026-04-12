@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export default function MealDetailsPage() {
   const { id } = useParams()
@@ -28,14 +29,37 @@ export default function MealDetailsPage() {
     fetchMeal()
   }, [id])
 
-  const handleAddToCart = () => {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]")
-    const existing = cart.find((item: any) => item.mealId === meal.id)
-    if (existing) existing.quantity += quantity
-    else cart.push({ mealId: meal.id, title: meal.title, price: meal.price, quantity })
-    localStorage.setItem("cart", JSON.stringify(cart))
-    alert(`${meal.title} added to cart!`)
-  }
+  // UPDATE: Parameter remove korlam karon 'meal' state e ache
+  const handleAddToCartLogic = () => {
+    if (!meal) return;
+
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    // 1. PROVIDER VALIDATION: String conversion korlam safe thakar jonno
+    if (cart.length > 0 && String(cart[0].providerId) !== String(meal.providerId)) {
+      toast.error("You can only order from one provider at a time! Clear your cart first.");
+      return;
+    }
+
+    // 2. ADD OR UPDATE LOGIC
+    const existing = cart.find((item: any) => item.mealId === meal.id);
+    
+    if (existing) {
+      // Details page e quantity state onujayi barabo
+      existing.quantity += quantity;
+    } else {
+      cart.push({ 
+        mealId: meal.id, 
+        title: meal.title, 
+        price: meal.price, 
+        providerId: meal.providerId, 
+        quantity: quantity // Current quantity state pathalam
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    toast.success(`${meal.title} added to cart!`);
+  };
 
   if (loading) return <p className="p-10 text-center">Loading...</p>
   if (!meal) return <p className="p-10 text-center">Meal not found</p>
@@ -73,14 +97,26 @@ export default function MealDetailsPage() {
           {/* Cart Section */}
           <div className="mt-6 border-t pt-6">
             <div className="flex items-center gap-4 mb-4">
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 bg-gray-200 rounded">-</button>
-              <span className="text-lg font-medium">{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 bg-gray-200 rounded">+</button>
+              <button 
+                onClick={() => setQuantity(Math.max(1, quantity - 1))} 
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
+                -
+              </button>
+              <span className="text-lg font-medium w-8 text-center">{quantity}</span>
+              <button 
+                onClick={() => setQuantity(quantity + 1)} 
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
+                +
+              </button>
             </div>
             <button
-              onClick={handleAddToCart}
+              onClick={handleAddToCartLogic} // Ekhon thikmoto logic trigger hobe
               disabled={!meal.isAvailable}
-              className={`w-full py-3 rounded-lg text-white font-semibold ${meal.isAvailable ? "bg-black hover:bg-gray-800" : "bg-gray-400 cursor-not-allowed"}`}
+              className={`w-full py-3 rounded-lg text-white font-semibold transition-all ${
+                meal.isAvailable ? "bg-black hover:bg-gray-800" : "bg-gray-400 cursor-not-allowed"
+              }`}
             >
               {meal.isAvailable ? `Add to Cart - ৳ ${meal.price * quantity}` : "Unavailable"}
             </button>

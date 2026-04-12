@@ -1,4 +1,5 @@
 "use server";
+import { env } from "@/env";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
@@ -8,16 +9,13 @@ export const createUser = async (userData: FieldValues) => {
   const { confirmPassword, ...users } = userData;
   console.log("test", users);
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(users),
+    const res = await fetch(`${env.BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(users),
+    });
     const result = await res.json();
     console.log(result);
     return result;
@@ -28,7 +26,7 @@ export const createUser = async (userData: FieldValues) => {
 
 export const loginUser = async (userData: FieldValues) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+    const res = await fetch(`${env.BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

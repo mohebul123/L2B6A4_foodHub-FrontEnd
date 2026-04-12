@@ -17,6 +17,7 @@ const getInitialCart = () => {
 export default function CartPage() {
   const router = useRouter()
   const [cart, setCart] = useState<any[]>(getInitialCart)
+  const [deliveryAddress, setDeliveryAddress] = useState<string>("")
   const updateQuantity = (mealId: string, newQty: number) => {
     const updated = cart.map((item) =>
       item.mealId === mealId ? { ...item, quantity: newQty } : item
@@ -33,25 +34,25 @@ export default function CartPage() {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const handleCheckout = async () => {
-    const deliveryAddress = "dhaka"
-  const result = await createOrder({
+  try{
+    const result = await createOrder({
     deliveryAddress,
     orderItems: cart
   });
-
-  console.log("RESULT:", result);
-
   if (!result) {
     alert("No response from server");
     return;
   }
-
   if (result.success) {
     alert("Order placed successfully!");
     localStorage.removeItem("cart");
     setCart([]);
   } else {
     alert(result.message || "Order failed");
+  }
+
+  }catch(error: any){
+toast.error(error.message || "An error occurred");
   }
 };
 
@@ -106,6 +107,16 @@ export default function CartPage() {
           ))}
 
           <p className="text-xl font-semibold">Total: ৳{total}</p>
+           <div className="mt-4">
+            <label className="block mb-2 font-semibold">Delivery Address</label>
+            <input
+              type="text"
+              value={deliveryAddress}
+              onChange={(e) => setDeliveryAddress(e.target.value)}
+              placeholder="Enter your delivery address"
+              className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+            />
+          </div>
           <button
             onClick={handleCheckout}
             className="w-full py-3 bg-black text-white rounded-lg font-semibold"

@@ -1,8 +1,11 @@
 "use server";
+
+import { env } from "@/env";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const getAllmeals = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/meals`, {
+    const res = await fetch(`${env.BASE_URL}/meals`, {
       method: "GET",
       headers: {
         "Content-Pype": "application/json",
