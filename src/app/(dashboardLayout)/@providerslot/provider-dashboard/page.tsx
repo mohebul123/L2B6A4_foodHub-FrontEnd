@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Link from "next/link";
 
 export default function ProviderMeals() {
   const [meals, setMeals] = useState([]);
@@ -18,7 +19,12 @@ export default function ProviderMeals() {
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">My Kitchen 🍳</h2>
-        <Button className="bg-orange-600">Add New Meal</Button>
+        <Link href="/provider-dashboard/add-meal">
+    <Button className="bg-orange-600 hover:bg-orange-700">Add New Meal</Button>
+  </Link>
+
+
+        
       </div>
 
       <Table>

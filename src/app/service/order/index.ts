@@ -27,7 +27,6 @@ export const createOrder = async (orderData: any) => {
   }
 };
 
-// services/index.ts-e add koro
 export const getMyOrders = async () => {
   try {
     const storeCookies = await cookies();
@@ -46,5 +45,32 @@ export const getMyOrders = async () => {
   } catch (error) {
     console.log("FETCH ORDERS ERROR:", error);
     return { success: false, data: [] };
+  }
+};
+
+export const updateOrderstatus = async (orderId: any, orderStatusData: any) => {
+  try {
+    const storeCookies = await cookies();
+    const token = storeCookies.get("token")?.value;
+    const res = await fetch(
+      `${env.BASE_URL}/providers/orders/${orderId}/status`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token!}`,
+        },
+        body: JSON.stringify(orderStatusData),
+      },
+    );
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    console.log("ORDER ERROR:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong",
+    };
   }
 };

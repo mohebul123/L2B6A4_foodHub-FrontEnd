@@ -1,15 +1,18 @@
 export const customerRoutes = [
   {
     title: "Customer Dashboard",
-
     items: [
       {
-        title: "Orders",
-        url: "#",
+        title: "Dashboard Home",
+        url: "/customer-dashboard",
       },
       {
-        title: "Profile",
-        url: "#",
+        title: "My Orders",
+        url: "/customer-dashboard",
+      },
+      {
+        title: "Profile Settings",
+        url: "/customer-dashboard/profile",
       },
     ],
   },
