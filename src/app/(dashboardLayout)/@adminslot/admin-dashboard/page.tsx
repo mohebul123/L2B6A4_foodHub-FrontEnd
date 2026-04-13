@@ -17,7 +17,7 @@ export default function AdminUserManagement() {
     <div className="p-4">
       <h2 className="text-xl font-bold mb-6">User Controls 🔐</h2>
       <div className="grid gap-4">
-        {users.map((user: any) => (
+        {users?.map((user: any) => (
           <div key={user.id} className="flex justify-between p-4 border rounded-lg items-center">
             <div>
               <p className="font-semibold">{user.name}</p>
