@@ -1,13 +1,15 @@
+import { Footer } from "@/components/modules/home/Footer";
 import { Navbar } from "@/components/shared/Navbar";
-import { ReactNode } from "react";
-export default function CommonLayout({children}:{children: ReactNode}) {
+// import { Footer } from "@/components/shared/Footer"; // Import koro
+
+export default function CommonLayout({ children }: { children: React.ReactNode }) {
   return (
-      <div>
-        <Navbar/>
-        <div className="">
-          {children}
-        </div>
-      </div>
-      
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
+        {children}
+      </main>
+      <Footer /> 
+    </div>
   );
 }
