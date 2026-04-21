@@ -9,7 +9,7 @@ export const Footer = () => {
         {/* 1. Brand Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-white tracking-tight">
-            Meal<span className="text-primary">Bridge</span>
+            Food<span className="text-primary">Hub</span>
           </h2>
           <p className="text-sm leading-relaxed">
             Connecting local home chefs with food lovers. Experience the taste of 

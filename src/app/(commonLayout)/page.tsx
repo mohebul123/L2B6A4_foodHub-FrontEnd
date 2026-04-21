@@ -7,7 +7,7 @@ import { HowItWorks } from "@/components/modules/home/HowItWorks";
 
 export default async function Home() {
   const res = await getAllmeals();
-  const meals = res?.data?.slice(0, 4) || []; 
+  const meals = res?.data?.slice(0, 8) || []; 
 
   return (
     <div className="flex flex-col gap-20 pb-20 ">

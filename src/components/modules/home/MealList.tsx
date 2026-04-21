@@ -32,9 +32,11 @@ export function MealList({ meals }: { meals: any[] }) {
     toast.success(`${meal.title} added to cart!`);
   };
 
-  return (
+  console.log('test',meals.length);
+
+ return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-6">
-      {meals?.slice(0, 4).map((meal: any) => (
+      {meals?.slice(0, 8).map((meal: any) => (
         <MealCard 
           key={meal.id} 
           meal={meal} 
