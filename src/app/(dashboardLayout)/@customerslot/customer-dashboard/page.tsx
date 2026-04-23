@@ -9,6 +9,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 export default async function CustomerDashboard() {
   const result = await getMyOrders();
   const orders = result?.data || [];
+
+  console.log(orders);
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">My Dashboard</h1>
@@ -51,7 +53,7 @@ export default async function CustomerDashboard() {
                       </p>
                     </div>
                     <div className="text-right flex flex-col items-end gap-1">
-                      <p className="font-bold text-sm text-primary">৳{order.totalPrice}</p>
+                      <p className="font-bold text-sm text-primary">৳{order.totalAmount}</p>
                       <Badge 
                         className={
                           order.status === "DELIVERED" 
