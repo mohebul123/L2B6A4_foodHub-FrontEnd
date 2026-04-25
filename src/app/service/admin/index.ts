@@ -116,26 +116,28 @@ export const getAllOrders = async () => {
 };
 
 // 4. Update User Status (Suspend/Activate)
-export const updateUserStatus = async (formData: FormData) => {
-  const userId = formData.get("userId");
-  const status = formData.get("status");
-
+export const updateUserStatus = async (
+  userId: string,
+  currentStatus: string,
+) => {
   try {
     const storeCookies = await cookies();
     const token = storeCookies.get("token")?.value;
-    const res = await fetch(`${env.BASE_URL}/users/${userId}/status`, {
-      method: "PATCH",
+
+    // Logic: Active thakle Suspended hobe, ar Suspended thakle Active hobe
+    const newStatus = currentStatus === "ACTIVE" ? "SUSPENDED" : "ACTIVE";
+
+    const res = await fetch(`${env.BASE_URL}/users/${userId}`, {
+      method: "PATCH", // Tomar backend onujayi PATCH ba PUT koro
       headers: {
         "Content-Type": "application/json",
-        Authorization: (await cookies()).get("accessToken")?.value || "",
+        authorization: `Bearer ${token!}`,
       },
-      body: JSON.stringify({ status }),
+      body: JSON.stringify({ status: newStatus }),
     });
 
-    const result = await res.json();
-    // Jodi server action hishebe use koro, tahole revalidatePath('/') call kora bhalo
-    return result;
+    return await res.json();
   } catch (error: any) {
-    return new Error(error);
+    return { success: false, message: "Failed to update status" };
   }
 };

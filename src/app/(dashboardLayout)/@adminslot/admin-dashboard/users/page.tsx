@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { getAllUsers } from "@/app/service/admin";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getAllUsers } from "@/app/service/admin";
+import { UserStatusButton } from "@/components/modules/admin/UserStatusButton";
 
 export default async function AdminUsersPage() {
   const result = await getAllUsers();
@@ -44,19 +45,19 @@ export default async function AdminUsersPage() {
                   <Badge variant="secondary">{user.role}</Badge>
                 </TableCell>
                 <TableCell>
-                  <Badge 
-                    className={user.status === "ACTIVE" ? "bg-green-500" : "bg-red-500"}
+                  <Badge
+                    className={
+                      user.status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
+                    }
                   >
                     {user.status}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button 
-                    variant={user.status === "ACTIVE" ? "destructive" : "default"} 
-                    size="sm"
-                  >
-                    {user.status === "ACTIVE" ? "Suspend" : "Activate"}
-                  </Button>
+                  <UserStatusButton
+                    userId={user.id || user.id}
+                    status={user.status}
+                  />
                 </TableCell>
               </TableRow>
             ))}

@@ -1,130 +1,114 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
-import { useState } from "react"
-import Link from "next/link"
-import { createOrder } from "@/app/service/order"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
-
-// Initialize from localStorage
-const getInitialCart = () => {
-  if (typeof window !== "undefined") {
-    return JSON.parse(localStorage.getItem("cart") || "[]")
-  }
-  return []
-}
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { createOrder } from "@/app/service/order";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
-  const router = useRouter()
-  const [cart, setCart] = useState<any[]>(getInitialCart)
-  const [deliveryAddress, setDeliveryAddress] = useState<string>("")
-  const updateQuantity = (mealId: string, newQty: number) => {
-    const updated = cart.map((item) =>
-      item.mealId === mealId ? { ...item, quantity: newQty } : item
-    )
-    setCart(updated)
-    localStorage.setItem("cart", JSON.stringify(updated))
-  }
-
-  const removeItem = (mealId: string) => {
-    const updated = cart.filter((item) => item.mealId !== mealId)
-    setCart(updated)
-    localStorage.setItem("cart", JSON.stringify(updated))
-  }
-
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const handleCheckout = async () => {
-  try{
-    const result = await createOrder({
-    deliveryAddress,
-    orderItems: cart
+  const router = useRouter();
+  const [cart, setCart] = useState<any[]>(() => {
+    if (typeof window !== "undefined")
+      return JSON.parse(localStorage.getItem("cart") || "[]");
+    return [];
   });
-  if (!result) {
-    alert("No response from server");
-    return;
-  }
-  if (result.success) {
-    alert("Order placed successfully!");
-    localStorage.removeItem("cart");
-    setCart([]);
-  } else {
-    alert(result.message || "Order failed");
-  }
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"COD" | "ONLINE">(
+    "ONLINE",
+  );
+  const [loading, setLoading] = useState(false);
 
-  }catch(error: any){
-toast.error(error.message || "An error occurred");
-  }
-};
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckout = async () => {
+    if (!deliveryAddress) return toast.error("Delivery address is required!");
+    setLoading(true);
+
+    try {
+      const result = await createOrder({
+        deliveryAddress,
+        orderItems: cart,
+        paymentMethod,
+      });
+
+      if (result?.success) {
+        localStorage.removeItem("cart");
+        toast.success("Order placed successfully!");
+
+        if (paymentMethod === "ONLINE" && result.data.paymentUrl) {
+          window.location.href = result.data.paymentUrl;
+        } else {
+          router.push("/dashboard/orders");
+        }
+      } else {
+        toast.error(result.message || "Order creation failed");
+      }
+    } catch (error: any) {
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (cart.length === 0)
+    return <div className="p-20 text-center font-bold">Cart is empty!</div>;
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-6">My Cart</h1>
-      {cart.length === 0 ? (
-        <p className="text-center">
-          Your cart is empty.{" "}
-          <Link href="/" className="text-blue-500 hover:underline">
-            Go shopping
-          </Link>
-        </p>
-      ) : (
-        <div className="space-y-4">
-          {cart.map((item) => (
-            <div
-              key={item.mealId}
-              className="flex justify-between items-center border p-4 rounded"
-            >
-              <div>
-                <h2 className="font-semibold">{item.title}</h2>
-                <p>Price: ৳{item.price}</p>
-              </div>
+    <div className="max-w-3xl mx-auto py-10 px-6 space-y-8">
+      <h1 className="text-3xl font-bold">Checkout</h1>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() =>
-                    updateQuantity(item.mealId, Math.max(1, item.quantity - 1))
-                  }
-                  className="px-3 py-1 bg-gray-200 rounded"
-                >
-                  -
-                </button>
-                <span>{item.quantity}</span>
-                <button
-                  onClick={() =>
-                    updateQuantity(item.mealId, item.quantity + 1)
-                  }
-                  className="px-3 py-1 bg-gray-200 rounded"
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => removeItem(item.mealId)}
-                  className="px-3 py-1 bg-red-500 text-white rounded"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-
-          <p className="text-xl font-semibold">Total: ৳{total}</p>
-           <div className="mt-4">
-            <label className="block mb-2 font-semibold">Delivery Address</label>
-            <input
-              type="text"
-              value={deliveryAddress}
-              onChange={(e) => setDeliveryAddress(e.target.value)}
-              placeholder="Enter your delivery address"
-              className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-            />
+      {/* Cart Summary */}
+      <div className="border rounded-lg p-4 space-y-2">
+        {cart.map((item) => (
+          <div key={item.mealId} className="flex justify-between border-b pb-2">
+            <span>
+              {item.title} (x{item.quantity})
+            </span>
+            <span className="font-semibold">৳{item.price * item.quantity}</span>
           </div>
+        ))}
+        <div className="text-xl font-bold pt-2 text-right">Total: ৳{total}</div>
+      </div>
+
+      {/* Address */}
+      <div className="space-y-2">
+        <label className="font-semibold">Delivery Address</label>
+        <textarea
+          className="w-full border p-3 rounded"
+          rows={3}
+          value={deliveryAddress}
+          onChange={(e) => setDeliveryAddress(e.target.value)}
+          placeholder="House #, Road #, City..."
+        />
+      </div>
+
+      {/* Payment Selection */}
+      <div className="space-y-3">
+        <label className="font-semibold">Payment Method</label>
+        <div className="flex gap-4">
           <button
-            onClick={handleCheckout}
-            className="w-full py-3 bg-black text-white rounded-lg font-semibold"
+            onClick={() => setPaymentMethod("ONLINE")}
+            className={`flex-1 border p-4 rounded-lg transition ${paymentMethod === "ONLINE" ? "bg-black text-white border-black" : "bg-white text-black"}`}
           >
-            Checkout
+            Online Payment
+          </button>
+          <button
+            onClick={() => setPaymentMethod("COD")}
+            className={`flex-1 border p-4 rounded-lg transition ${paymentMethod === "COD" ? "bg-black text-white border-black" : "bg-white text-black"}`}
+          >
+            Cash on Delivery
           </button>
         </div>
-      )}
+      </div>
+
+      <button
+        disabled={loading}
+        onClick={handleCheckout}
+        className="w-full bg-orange-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-700 disabled:bg-gray-400"
+      >
+        {loading ? "Processing..." : "Place Order"}
+      </button>
     </div>
-  )
+  );
 }
