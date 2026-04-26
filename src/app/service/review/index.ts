@@ -1,12 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
+/**
+ * Helper: Token fetch korar jonno
+ */
+const getToken = async () => {
+  const storeCookies = await cookies();
+  return storeCookies.get("token")?.value;
+};
+
+/**
+ * Create Review
+ * Meal ba provider-er upor feedback deyar jonno use hobe.
+ */
 export const createReview = async (reviewData: any) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
 
     const res = await fetch(`${env.BASE_URL}/reviews`, {
       method: "POST",
@@ -15,15 +27,16 @@ export const createReview = async (reviewData: any) => {
         authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify(reviewData),
+      cache: "no-store", // Instant feedback update-er jonno
     });
 
     const result = await res.json();
     return result;
-  } catch (error) {
-    console.log("REVIEW ERROR:", error);
+  } catch (error: any) {
+    console.error("REVIEW_ERROR:", error);
     return {
       success: false,
-      message: "Something went wrong",
+      message: "Something went wrong while posting your review.",
     };
   }
 };

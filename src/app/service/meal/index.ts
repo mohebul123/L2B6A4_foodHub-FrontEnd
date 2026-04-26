@@ -2,26 +2,32 @@
 
 import { env } from "@/env";
 import { cookies } from "next/headers";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+const getToken = async () => {
+  const storeCookies = await cookies();
+  return storeCookies.get("token")?.value;
+};
+
 export const getAllmeals = async () => {
   try {
     const res = await fetch(`${env.BASE_URL}/meals`, {
       method: "GET",
       headers: {
-        "Content-Pype": "application/json",
+        "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
-    const result = await res.json();
-    return result;
+    return await res.json();
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: "Failed to fetch meals" };
   }
 };
 
 export const addMeal = async (mealData: any) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
 
     const res = await fetch(`${env.BASE_URL}/meals`, {
       method: "POST",
@@ -30,6 +36,7 @@ export const addMeal = async (mealData: any) => {
         authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify(mealData),
+      cache: "no-store",
     });
     return await res.json();
   } catch (error) {
@@ -39,8 +46,7 @@ export const addMeal = async (mealData: any) => {
 
 export const getProviderOrders = async () => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
 
     const res = await fetch(`${env.BASE_URL}/orders/provider-orders`, {
       method: "GET",
@@ -48,9 +54,10 @@ export const getProviderOrders = async () => {
         "Content-Type": "application/json",
         authorization: `Bearer ${token!}`,
       },
+      cache: "no-store",
     });
     return await res.json();
   } catch (error) {
-    return { success: false, message: "Meal addition failed" };
+    return { success: false, message: "Failed to fetch provider orders" };
   }
 };

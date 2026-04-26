@@ -5,59 +5,49 @@ import { cookies } from "next/headers";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-//  headers: {
-//       "Content-Type": "application/json",
-//       authorization: `Bearer ${token!}`,
-//     },
-//     body: JSON.stringify(mealData),
+const getToken = async () => {
+  const storeCookies = await cookies();
+  return storeCookies.get("token")?.value;
+};
 
-// 1. Get All Users (Admin Only)
 export const getAllUsers = async () => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
     const res = await fetch(`${env.BASE_URL}/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Admin data access korar jonno token pathano lagte pare
         authorization: `Bearer ${token!}`,
       },
-      next: { revalidate: 0 }, // Jeno cache theke puran data na dekhay
+      cache: "no-store",
     });
 
-    const result = await res.json();
-    return result;
+    return await res.json();
   } catch (error: any) {
-    return new Error(error);
+    return { success: false, message: "Failed to fetch users" };
   }
 };
 
-// 2. Get All Categories
 export const getAllCategories = async () => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
     const res = await fetch(`${env.BASE_URL}/category`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token!}`,
       },
+      cache: "no-store",
     });
-    const result = await res.json();
-    console.log("cata", result);
-    return result;
+    return await res.json();
   } catch (error: any) {
-    return new Error(error);
+    return { success: false, message: "Failed to fetch categories" };
   }
 };
 
 export const createCategory = async (categoryData: { name: string }) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
-
+    const token = await getToken();
     const res = await fetch(`${env.BASE_URL}/category`, {
       method: "POST",
       headers: {
@@ -65,6 +55,7 @@ export const createCategory = async (categoryData: { name: string }) => {
         authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify(categoryData),
+      cache: "no-store",
     });
     return await res.json();
   } catch (error: any) {
@@ -72,13 +63,9 @@ export const createCategory = async (categoryData: { name: string }) => {
   }
 };
 
-// Delete Category
-// src/app/service/admin.ts
 export const deleteCategory = async (id: string) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
-
+    const token = await getToken();
     const res = await fetch(`${env.BASE_URL}/category/${id}`, {
       method: "DELETE",
       headers: {
@@ -86,58 +73,49 @@ export const deleteCategory = async (id: string) => {
       },
       cache: "no-store",
     });
-
-    // API result ta return koro, error holeo
     return await res.json();
   } catch (error: any) {
-    return { success: false, message: "Network error occurred" };
+    return { success: false, message: "Failed to delete category" };
   }
 };
 
-// 3. Get All Orders (Admin Only)
 export const getAllOrders = async () => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
     const res = await fetch(`${env.BASE_URL}/orders/allOrders`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token!}`,
       },
-      next: { revalidate: 0 },
+      cache: "no-store",
     });
-    const result = await res.json();
-
-    return result;
+    return await res.json();
   } catch (error: any) {
-    return new Error(error);
+    return { success: false, message: "Failed to fetch orders" };
   }
 };
 
-// 4. Update User Status (Suspend/Activate)
 export const updateUserStatus = async (
   userId: string,
   currentStatus: string,
 ) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
-
-    // Logic: Active thakle Suspended hobe, ar Suspended thakle Active hobe
+    const token = await getToken();
     const newStatus = currentStatus === "ACTIVE" ? "SUSPENDED" : "ACTIVE";
 
     const res = await fetch(`${env.BASE_URL}/users/${userId}`, {
-      method: "PATCH", // Tomar backend onujayi PATCH ba PUT koro
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify({ status: newStatus }),
+      cache: "no-store",
     });
 
     return await res.json();
   } catch (error: any) {
-    return { success: false, message: "Failed to update status" };
+    return { success: false, message: "Failed to update user status" };
   }
 };

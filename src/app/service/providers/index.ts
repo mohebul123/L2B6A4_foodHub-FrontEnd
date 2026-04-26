@@ -19,20 +19,33 @@ import { cookies } from "next/headers";
 //       },
 //     );
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+const getToken = async () => {
+  const storeCookies = await cookies();
+  return storeCookies.get("token")?.value;
+};
+
 export const becomeProvider = async (providerData: any) => {
   try {
-    const storeCookies = await cookies();
-    const token = storeCookies.get("token")?.value;
+    const token = await getToken();
+
     const res = await fetch(`${env.BASE_URL}/providers/become-provider`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify(providerData),
+      cache: "no-store",
     });
+
     return await res.json();
-  } catch (error) {
-    return { success: false, message: "Server connection failed" };
+  } catch (error: any) {
+    console.error("BECOME_PROVIDER_ERROR:", error);
+    return {
+      success: false,
+      message: "Server connection failed. Please try again later.",
+    };
   }
 };
