@@ -1,20 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-/**
- * Helper: Token fetch korar jonno
- */
 const getToken = async () => {
   const storeCookies = await cookies();
   return storeCookies.get("token")?.value;
 };
 
-/**
- * 1. Create Order
- */
 export const createOrder = async (orderData: any) => {
   try {
     const token = await getToken();
@@ -38,9 +32,6 @@ export const createOrder = async (orderData: any) => {
   }
 };
 
-/**
- * 2. Get My Orders (For Customer)
- */
 export const getMyOrders = async () => {
   try {
     const token = await getToken();
@@ -60,9 +51,6 @@ export const getMyOrders = async () => {
   }
 };
 
-/**
- * 3. Update Order Status (For Providers)
- */
 export const updateOrderstatus = async (orderId: any, orderStatusData: any) => {
   try {
     const token = await getToken();
