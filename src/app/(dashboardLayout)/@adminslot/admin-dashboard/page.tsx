@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useEffect, useState, useCallback } from "react"; // useCallback add kora hoyeche
+import { useEffect, useState, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { getAllUsers, updateUserStatus } from "@/app/service/admin";
 import { toast } from "sonner";
-import { UserX, UserCheck, Loader2, ShieldAlert } from "lucide-react"; // UserSlash bad diye UserX
+import { UserX, UserCheck, Loader2, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function AdminUserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // function-tike useCallback diye wrap kora hoyeche jate cascading render na hoy
   const fetchUsers = useCallback(async () => {
     try {
       const res = await getAllUsers();
@@ -27,7 +26,7 @@ export default function AdminUserManagement() {
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]); // dependency te fetchUsers deya holo
+  }, [fetchUsers]);
 
   const handleToggleStatus = async (userId: string, currentStatus: string) => {
     const newStatus = currentStatus === "ACTIVE" ? "SUSPENDED" : "ACTIVE";

@@ -13,7 +13,6 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: z.string().url(),
   },
   runtimeEnv: {
-    // Mapping: .env theke data niye asha
     BASE_URL: process.env.BASE_URL,
     NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
     JWT_SECRET: process.env.JWT_SECRET,

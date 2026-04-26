@@ -12,7 +12,6 @@ import { toast } from "sonner";
 import { updateProviderProfile } from "@/app/service/providers";
 import { useRouter } from "next/navigation";
 
-// Tomar deya schema onujayi
 const updateProviderProfileSchema = z.object({
   restaurantName: z.string().optional(),
   description: z.string().optional(),
@@ -32,7 +31,7 @@ export default function UpdateProviderProfilePage({
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<UpdateProfileValues>({
     resolver: zodResolver(updateProviderProfileSchema),
     defaultValues: {

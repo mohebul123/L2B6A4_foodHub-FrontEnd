@@ -16,7 +16,6 @@ export default function ProviderMeals() {
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
-    // Backend: GET /meals/my-meals (Filter by providerId in backend)
     fetch("http://localhost:5000/api/meals")
       .then((res) => res.json())
       .then((data) => setMeals(data.data));

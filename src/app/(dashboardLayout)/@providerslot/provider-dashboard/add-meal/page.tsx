@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { addMeal } from "@/app/service/meal";
 import { getAllCategories } from "@/app/service/admin";
-// import { getAllCategories } from "@/app/service/category"; // Import service
 
 export default function AddMealPage() {
   const {
@@ -58,7 +57,6 @@ export default function AddMealPage() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Title & Description skipped for brevity, same as before */}
         <div>
           <label className="text-sm font-medium">Meal Title</label>
           <input
@@ -95,7 +93,6 @@ export default function AddMealPage() {
             />
           </div>
 
-          {/* Dynamic Cuisine Dropdown */}
           <div>
             <label className="text-sm font-medium">Cuisine Type</label>
             <select

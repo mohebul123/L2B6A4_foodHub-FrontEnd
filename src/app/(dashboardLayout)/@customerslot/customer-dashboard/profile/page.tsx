@@ -3,15 +3,8 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  User,
-  Mail,
-  ShieldCheck,
-  Calendar,
-  Loader2,
-  Edit3,
-} from "lucide-react";
-import { getUser } from "@/app/service/auth"; // Tomar auth service path
+import { User, Mail, ShieldCheck, Loader2, Edit3 } from "lucide-react";
+import { getUser } from "@/app/service/auth";
 import Link from "next/link";
 
 interface UserProfile {
@@ -117,23 +110,6 @@ export default function CustomerProfile() {
               </p>
             </div>
           </div>
-
-          {/* <div className="flex items-start gap-4">
-            <Calendar className="text-orange-600 mt-1" size={20} />
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold uppercase text-gray-400">
-                Member Since
-              </span>
-              <p className="font-semibold text-lg text-gray-700">
-                {new Date(profile.createdAt).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </p>
-            </div>
-          </div> */}
-
           <div className="pt-6 border-t flex gap-4">
             <Link href="/customer-dashboard/profile/update-profile">
               <Button

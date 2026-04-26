@@ -4,18 +4,11 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-/**
- * Helper: Token fetch korar jonno
- */
 const getToken = async () => {
   const storeCookies = await cookies();
   return storeCookies.get("token")?.value;
 };
 
-/**
- * Create Review
- * Meal ba provider-er upor feedback deyar jonno use hobe.
- */
 export const createReview = async (reviewData: any) => {
   try {
     const token = await getToken();
@@ -27,7 +20,7 @@ export const createReview = async (reviewData: any) => {
         authorization: `Bearer ${token!}`,
       },
       body: JSON.stringify(reviewData),
-      cache: "no-store", // Instant feedback update-er jonno
+      cache: "no-store",
     });
 
     const result = await res.json();

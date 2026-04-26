@@ -9,8 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { DeleteCategoryButton } from "@/components/modules/admin/DeleteCategoryButton";
 
 export default async function AdminCategoriesPage() {
@@ -39,15 +37,6 @@ export default async function AdminCategoriesPage() {
                 <TableRow key={cat.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell className="font-medium">{cat.name}</TableCell>
-                  {/* <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-red-500"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </TableCell> */}
                   <TableCell className="text-right">
                     <DeleteCategoryButton id={cat.id} />
                   </TableCell>

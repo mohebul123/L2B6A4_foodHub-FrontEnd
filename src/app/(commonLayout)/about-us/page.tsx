@@ -3,7 +3,6 @@ import {
   UtensilsCrossed,
   ShieldCheck,
   Truck,
-  Heart,
   Users,
   Target,
   Zap,
@@ -40,7 +39,6 @@ export default function AboutUs() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* 1. Header Section (Text Focused) */}
       <section className="bg-slate-900 text-white py-24 px-6 text-center">
         <div className="max-w-4xl mx-auto">
           <UtensilsCrossed className="w-16 h-16 text-orange-500 mx-auto mb-6" />
@@ -53,8 +51,6 @@ export default function AboutUs() {
           </p>
         </div>
       </section>
-
-      {/* 2. Our Mission Section (Minimal Grid) */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 items-start">
           <div className="md:col-span-4 sticky top-24">
@@ -119,7 +115,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 4. Join Us/Community Section (Centered Text) */}
       <section className="py-24 px-6 text-center max-w-7xl mx-auto border-b border-slate-100">
         <div className="max-w-3xl mx-auto space-y-8">
           <Users className="w-16 h-16 text-orange-500 mx-auto" />
@@ -143,7 +138,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 5. Minimalist Footer */}
       <footer className="bg-white py-12 text-center text-gray-500 text-sm">
         <p>Made with ❤️ for food lovers.</p>
         <p className="mt-2">© 2026 FoodHub. Registered Trademark.</p>

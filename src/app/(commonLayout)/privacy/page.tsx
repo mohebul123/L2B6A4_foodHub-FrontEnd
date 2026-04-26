@@ -26,7 +26,6 @@ export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-slate-50 py-16 px-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-block p-3 bg-orange-100 rounded-full mb-4">
             <ShieldCheck className="w-10 h-10 text-orange-600" />
@@ -37,7 +36,6 @@ export default function PrivacyPolicy() {
           <p className="text-gray-500 mt-2">Last Updated: April 26, 2026</p>
         </div>
 
-        {/* Content Card */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
           {/* Welcome Message */}
           <div className="p-8 md:p-12 border-b border-slate-100 bg-orange-50/30">
@@ -52,7 +50,6 @@ export default function PrivacyPolicy() {
             </p>
           </div>
 
-          {/* Policy Sections */}
           <div className="p-8 md:p-12 space-y-12">
             {/* Grid Sections */}
             <div className="grid md:grid-cols-1 gap-10">
@@ -72,8 +69,6 @@ export default function PrivacyPolicy() {
             </div>
 
             <hr className="border-slate-100" />
-
-            {/* Detailed Clauses */}
             <div className="space-y-8">
               <section>
                 <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
@@ -112,7 +107,6 @@ export default function PrivacyPolicy() {
             </div>
           </div>
 
-          {/* Contact Footer */}
           <div className="p-8 md:p-12 bg-slate-900 text-white text-center">
             <h3 className="text-xl font-bold mb-2">Have Questions?</h3>
             <p className="text-slate-400 mb-6">

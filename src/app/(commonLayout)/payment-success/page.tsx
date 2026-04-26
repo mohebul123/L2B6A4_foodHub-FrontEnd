@@ -6,12 +6,10 @@ import { CheckCircle2, ShoppingBag, ArrowRight } from "lucide-react";
 export default function SuccessPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
-      {/* Animated Success Icon */}
       <div className="mb-6 animate-bounce">
         <CheckCircle2 className="w-20 h-20 text-green-500" />
       </div>
 
-      {/* Success Message */}
       <h1 className="text-4xl font-extrabold text-gray-900 mb-2 text-center">
         Payment Successful!
       </h1>
@@ -20,7 +18,6 @@ export default function SuccessPage() {
         delicious food ...
       </p>
 
-      {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
         <Link
           href="/customer-dashboard/"
@@ -38,8 +35,6 @@ export default function SuccessPage() {
           <ArrowRight className="w-5 h-5" />
         </Link>
       </div>
-
-      {/* Order Info Note */}
       <p className="mt-10 text-sm text-gray-400">
         If there have any trouble you facing , Please contact us immediately...
       </p>

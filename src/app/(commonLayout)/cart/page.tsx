@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { createOrder } from "@/app/service/order";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -71,7 +70,6 @@ export default function CartPage() {
         <div className="text-xl font-bold pt-2 text-right">Total: ৳{total}</div>
       </div>
 
-      {/* Address */}
       <div className="space-y-2">
         <label className="font-semibold">Delivery Address</label>
         <textarea
@@ -83,7 +81,6 @@ export default function CartPage() {
         />
       </div>
 
-      {/* Payment Selection */}
       <div className="space-y-3">
         <label className="font-semibold">Payment Method</label>
         <div className="flex gap-4">

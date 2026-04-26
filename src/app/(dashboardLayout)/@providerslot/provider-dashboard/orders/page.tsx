@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import OrderRow from "./OrderRow"; // default import (No curly braces)
+import OrderRow from "./OrderRow";
 
 export default async function ProviderOrdersPage() {
   const result = await getProviderOrders();
@@ -18,7 +18,9 @@ export default async function ProviderOrdersPage() {
     <div className="p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold">Incoming Orders 🛒</h2>
-        <p className="text-muted-foreground text-sm">Manage and track your customer orders.</p>
+        <p className="text-muted-foreground text-sm">
+          Manage and track your customer orders.
+        </p>
       </div>
 
       <div className="border rounded-lg bg-white shadow-sm overflow-hidden">
@@ -40,7 +42,10 @@ export default async function ProviderOrdersPage() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-20 text-muted-foreground italic">
+                <TableCell
+                  colSpan={6}
+                  className="text-center py-20 text-muted-foreground italic"
+                >
                   No orders found for your kitchen.
                 </TableCell>
               </TableRow>

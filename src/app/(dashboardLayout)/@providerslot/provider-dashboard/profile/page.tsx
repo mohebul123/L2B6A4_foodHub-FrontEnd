@@ -1,10 +1,10 @@
 // import { getOwnProviderProfile } from "@/app/service/providers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, MapPin, Phone, User, Utensils, Info, Edit3 } from "lucide-react"; // Edit3 icon add kora hoyeche
+import { Mail, MapPin, Phone, User, Utensils, Info, Edit3 } from "lucide-react";
 import { getOwnProviderProfile } from "@/app/service/providers";
-import Link from "next/link"; // Link component import kora hoyeche
-import { Button } from "@/components/ui/button"; // Shadcn Button component
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function ProviderProfilePage() {
   let response = null;

@@ -3,22 +3,6 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-// export const updateOrderstatus = async (orderId: any, orderStatusData: any) => {
-//   try {
-//     const storeCookies = await cookies();
-//     const token = storeCookies.get("token")?.value;
-//     const res = await fetch(
-//       `${env.BASE_URL}/providers/orders/${orderId}/status`,
-//       {
-//         method: "PATCH",
-//         headers: {
-//           "Content-Type": "application/json",
-//           authorization: `Bearer ${token!}`,
-//         },
-//         body: JSON.stringify(orderStatusData),
-//       },
-//     );
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const getToken = async () => {
@@ -54,7 +38,6 @@ export const getOwnProviderProfile = async () => {
   try {
     const token = await getToken();
 
-    // Jodi token na thake tobe unauthorized return korbe
     if (!token) {
       return {
         success: false,

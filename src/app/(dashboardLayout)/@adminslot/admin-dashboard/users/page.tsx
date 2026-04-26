@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { getAllUsers } from "@/app/service/admin";
 import { UserStatusButton } from "@/components/modules/admin/UserStatusButton";
 
