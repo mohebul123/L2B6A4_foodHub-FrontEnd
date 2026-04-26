@@ -3,10 +3,20 @@ import * as z from "zod";
 
 export const env = createEnv({
   server: {
-    BASE_URL: z.url(),
+    BASE_URL: z.string().url(),
+    JWT_SECRET: z.string().min(1).optional(),
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_BASE_URL: z.string().url(),
+  },
   runtimeEnv: {
+    // Mapping: .env theke data niye asha
     BASE_URL: process.env.BASE_URL,
+    NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
+    JWT_SECRET: process.env.JWT_SECRET,
+    NODE_ENV: process.env.NODE_ENV,
   },
 });

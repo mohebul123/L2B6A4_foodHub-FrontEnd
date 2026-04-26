@@ -22,6 +22,7 @@ interface User {
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/meals", label: "Browse Meals" },
+  { href: "/about-us", label: "About Us" },
 ];
 
 export function Navbar() {

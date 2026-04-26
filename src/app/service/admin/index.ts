@@ -119,3 +119,12 @@ export const updateUserStatus = async (
     return { success: false, message: "Failed to update user status" };
   }
 };
+
+export const getAdminStatistics = async () => {
+  const token = (await cookies()).get("token")?.value;
+  const res = await fetch(`${env.BASE_URL}/admin/statistics`, {
+    headers: { authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  return await res.json();
+};
