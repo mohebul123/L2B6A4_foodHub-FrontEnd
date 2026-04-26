@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, ShoppingBag, ArrowRight } from "lucide-react"; // lucide-react install kora na thakle koro
+import { CheckCircle2, ShoppingBag, ArrowRight } from "lucide-react";
 
 export default function SuccessPage() {
   return (
