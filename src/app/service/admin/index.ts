@@ -104,7 +104,7 @@ export const updateUserStatus = async (
     const token = await getToken();
     const newStatus = currentStatus === "ACTIVE" ? "SUSPENDED" : "ACTIVE";
 
-    const res = await fetch(`${env.BASE_URL}/users/${userId}`, {
+    const res = await fetch(`${env.BASE_URL}/admin/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +116,10 @@ export const updateUserStatus = async (
 
     return await res.json();
   } catch (error: any) {
-    return { success: false, message: "Failed to update user status" };
+    return {
+      success: false,
+      message: error?.message || "Failed to update user status",
+    };
   }
 };
 

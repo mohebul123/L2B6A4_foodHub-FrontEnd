@@ -29,7 +29,7 @@ export const addMeal = async (mealData: any) => {
   try {
     const token = await getToken();
 
-    const res = await fetch(`${env.BASE_URL}/meals`, {
+    const res = await fetch(`${env.BASE_URL}/providers/meals`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,6 +40,8 @@ export const addMeal = async (mealData: any) => {
     });
     return await res.json();
   } catch (error) {
+    console.log("test", `${env.BASE_URL}/meals/`);
+    console.log(error);
     return { success: false, message: "Meal addition failed" };
   }
 };

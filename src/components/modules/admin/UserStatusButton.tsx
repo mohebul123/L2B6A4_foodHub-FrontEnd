@@ -1,36 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { updateUserStatus } from "@/app/service/admin";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { updateUserStatus } from "@/app/service/admin";
+import { Loader2, Power, PowerOff } from "lucide-react";
 
-export function UserStatusButton({
-  userId,
-  status,
-}: {
+interface UserStatusButtonProps {
   userId: string;
-  status: string;
-}) {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  status: "ACTIVE" | "SUSPENDED";
+}
 
-  const handleToggleStatus = async () => {
+export function UserStatusButton({ userId, status }: UserStatusButtonProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleToggle = async () => {
     setLoading(true);
     try {
       const res = await updateUserStatus(userId, status);
+
       if (res.success) {
         toast.success(
-          `User ${status === "ACTIVE" ? "suspended" : "activated"} successfully!`,
+          `User is now ${status === "ACTIVE" ? "SUSPENDED" : "ACTIVE"}`,
         );
-        router.refresh(); // Data reload korar jonno
+        router.refresh(); // 🔥 Server-side data refresh korbe
       } else {
-        toast.error(res.message || "Failed to update status");
+        toast.error(res.message || "Something went wrong");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Failed to update status");
     } finally {
       setLoading(false);
     }
@@ -38,18 +38,22 @@ export function UserStatusButton({
 
   return (
     <Button
-      onClick={handleToggleStatus}
-      disabled={loading}
       variant={status === "ACTIVE" ? "destructive" : "default"}
       size="sm"
-      className="w-24"
+      className="w-[100px]"
+      disabled={loading}
+      onClick={handleToggle}
     >
       {loading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : status === "ACTIVE" ? (
-        "Suspend"
+        <>
+          <PowerOff className="mr-2 h-4 w-4" /> Suspend
+        </>
       ) : (
-        "Activate"
+        <>
+          <Power className="mr-2 h-4 w-4" /> Activate
+        </>
       )}
     </Button>
   );

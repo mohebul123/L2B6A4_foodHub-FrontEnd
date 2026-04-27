@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner"; // Ba tomar priyo toast library
+import { toast } from "sonner";
 import { Store, MapPin, Phone, FileText } from "lucide-react";
+import { becomeProvider } from "@/app/service/providers";
 
 export default function BecomeProviderForm() {
   const router = useRouter();
@@ -21,28 +23,48 @@ export default function BecomeProviderForm() {
       phone: formData.get("phone"),
     };
 
-    // Backend-e data pathano
-    const res = await fetch("/api/providers/become-provider", { // Tomar Route onujayi
-        method: "POST",
-        body: JSON.stringify(payload)
-    });
-    
-    const result = await res.json();
+    try {
+      const result = await becomeProvider(payload);
 
-    if (result.success) {
-      toast.success("Profile created! Please login again to sync your new role.");
-      router.push("/login"); // Role change hoile login kora best jate token update hoy
-    } else {
-      toast.error(result.message || "Failed to become a provider");
+      if (result?.success) {
+        toast.success("Profile created! Redirecting to login...");
+
+        // 1. Clear Cookies (Sabdhan: Tomar cookie name 'accessToken' ba 'token' hote pare)
+        // Client-side e cookie delete korar procheshtha
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        // 2. Clear LocalStorage (Just in case)
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("token");
+
+        // 3. Instant Hard Redirect (window.location use kora eikhane best)
+        // router.push er cheye window.location.href beshi powerful refresh er jonno
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1500);
+      } else {
+        toast.error(result?.message || "Failed to become a provider");
+      }
+    } catch (error: any) {
+      console.error("FORM_SUBMIT_ERROR:", error);
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <div className="max-w-2xl mx-auto my-10 p-8 bg-white shadow-xl rounded-2xl border border-slate-100">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-800">Become a Provider 🍱</h1>
-        <p className="text-slate-500 mt-2">Fill in your kitchen details to start selling</p>
+        <h1 className="text-3xl font-extrabold text-slate-800">
+          Become a Provider 🍱
+        </h1>
+        <p className="text-slate-500 mt-2">
+          Fill in your kitchen details to start selling
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -54,7 +76,7 @@ export default function BecomeProviderForm() {
           <input
             name="restaurantName"
             required
-            placeholder="e.g. Babys Out"
+            placeholder="e.g. Kacchi Bari"
             className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
           />
         </div>
@@ -94,7 +116,7 @@ export default function BecomeProviderForm() {
             <input
               name="phone"
               required
-              placeholder="02222222222"
+              placeholder="01XXXXXXXXX"
               className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
             />
           </div>
@@ -105,7 +127,14 @@ export default function BecomeProviderForm() {
           disabled={loading}
           className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-200 transition-all transform active:scale-[0.98] disabled:bg-slate-400"
         >
-          {loading ? "Registering Your Kitchen..." : "Launch My Store 🚀"}
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+              Launching Kitchen...
+            </span>
+          ) : (
+            "Launch My Store 🚀"
+          )}
         </button>
       </form>
     </div>

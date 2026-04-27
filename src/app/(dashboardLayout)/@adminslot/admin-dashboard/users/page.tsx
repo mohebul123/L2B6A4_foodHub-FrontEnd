@@ -14,7 +14,6 @@ import { UserStatusButton } from "@/components/modules/admin/UserStatusButton";
 
 export default async function AdminUsersPage() {
   const result = await getAllUsers();
-  // console.log(result);
   const users = result?.data || [];
 
   return (
@@ -53,10 +52,7 @@ export default async function AdminUsersPage() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <UserStatusButton
-                    userId={user.id || user.id}
-                    status={user.status}
-                  />
+                  <UserStatusButton userId={user.id} status={user.status} />
                 </TableCell>
               </TableRow>
             ))}

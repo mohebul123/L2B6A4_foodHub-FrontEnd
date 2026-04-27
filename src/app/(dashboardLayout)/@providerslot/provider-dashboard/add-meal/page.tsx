@@ -17,7 +17,6 @@ export default function AddMealPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const router = useRouter();
 
-  // Database theke categories load kora
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await getAllCategories();

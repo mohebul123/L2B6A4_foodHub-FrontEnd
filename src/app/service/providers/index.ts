@@ -85,3 +85,47 @@ export const updateProviderProfile = async (updateData: any) => {
     return { success: false, message: "Failed to update profile" };
   }
 };
+
+export const updateMeal = async (id: string, updateData: any) => {
+  try {
+    const token = await getToken();
+
+    const res = await fetch(`${env.BASE_URL}/providers/meals/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updateData),
+      cache: "no-store",
+    });
+
+    const result = await res.json();
+    console.log(result);
+    return result;
+  } catch (error: any) {
+    console.error("UPDATE_MEAL_ERROR:", error);
+    return {
+      success: false,
+      message: error?.message || "Failed to update meal",
+    };
+  }
+};
+
+export const getMyMeals = async () => {
+  try {
+    const token = await getToken();
+    const res = await fetch(`${env.BASE_URL}/providers/my-meals`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    return await res.json();
+  } catch (error: any) {
+    console.error("GET_MY_MEALS_ERROR:", error);
+    return { success: false, message: "Could not load your meals." };
+  }
+};
