@@ -14,7 +14,7 @@ export const becomeProvider = async (providerData: any) => {
   try {
     const token = await getToken();
 
-    const res = await fetch(`${env.BASE_URL}/providers/become-provider`, {
+    const res = await fetch(`${env.BASE_URL}/providers/profile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
