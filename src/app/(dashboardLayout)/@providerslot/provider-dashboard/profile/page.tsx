@@ -5,7 +5,7 @@ import { Mail, MapPin, Phone, User, Utensils, Info, Edit3 } from "lucide-react";
 import { getOwnProviderProfile } from "@/app/service/providers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
+export const dynamic = "force-dynamic";
 export default async function ProviderProfilePage() {
   let response = null;
   let errorMsg = null;

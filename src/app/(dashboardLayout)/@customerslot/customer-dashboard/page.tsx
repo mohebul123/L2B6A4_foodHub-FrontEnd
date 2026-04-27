@@ -3,7 +3,7 @@ import { getMyOrders } from "@/app/service/order";
 import { ReviewModal } from "@/components/modules/reviews/ReviewModal";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-
+export const dynamic = "force-dynamic";
 export default async function CustomerDashboard() {
   const result = await getMyOrders();
   const orders = result?.data || [];
