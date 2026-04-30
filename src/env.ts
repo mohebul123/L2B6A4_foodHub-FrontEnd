@@ -14,7 +14,7 @@ export const env = createEnv({
   },
   runtimeEnv: {
     BASE_URL: process.env.BASE_URL,
-    NEXT_PUBLIC_BASE_URL: process.env.BASE_URL,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     JWT_SECRET: process.env.JWT_SECRET,
     NODE_ENV: process.env.NODE_ENV,
   },

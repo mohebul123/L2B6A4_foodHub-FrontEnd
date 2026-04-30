@@ -8,6 +8,7 @@ import {
   Zap,
   Award,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutUs() {
   const values = [
@@ -129,10 +130,12 @@ export default function AboutUs() {
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-6">
             <button className="bg-orange-600 text-white px-10 py-3.5 rounded-full font-bold hover:bg-orange-700 transition-colors shadow">
-              Order Your First Meal
+              <Link href="/meals">Order Your First Meal</Link>
             </button>
             <button className="border-2 border-orange-600 text-orange-600 px-10 py-3 rounded-full font-bold hover:bg-orange-50 transition-colors">
-              Apply as a Provider
+              <Link href="/customer-dashboard/becomeProvider">
+                Become A Provider
+              </Link>
             </button>
           </div>
         </div>

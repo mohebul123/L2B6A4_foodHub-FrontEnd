@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import { env } from "@/env";
 
 export default function MealDetailsPage() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export default function MealDetailsPage() {
     if (!id) return;
     const fetchMeal = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/meals/${id}`);
+        const res = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/meals/${id}`);
         const data = await res.json();
         setMeal(data.data);
       } catch (err) {
