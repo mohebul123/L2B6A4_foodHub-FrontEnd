@@ -29,19 +29,14 @@ export default function BecomeProviderForm() {
       if (result?.success) {
         toast.success("Profile created! Redirecting to login...");
 
-        // 1. Clear Cookies (Sabdhan: Tomar cookie name 'accessToken' ba 'token' hote pare)
-        // Client-side e cookie delete korar procheshtha
         document.cookie =
           "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-        // 2. Clear LocalStorage (Just in case)
         localStorage.removeItem("accessToken");
         localStorage.removeItem("token");
 
-        // 3. Instant Hard Redirect (window.location use kora eikhane best)
-        // router.push er cheye window.location.href beshi powerful refresh er jonno
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);

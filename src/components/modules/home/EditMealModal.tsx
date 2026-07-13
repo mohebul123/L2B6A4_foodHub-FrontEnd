@@ -33,7 +33,6 @@ export default function EditMealModal({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // State-e shobgulo optional field initialized thakbe
   const [formData, setFormData] = useState({
     title: meal?.title || "",
     description: meal?.description || "",
@@ -46,7 +45,6 @@ export default function EditMealModal({
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      // Backend e pathanor age data-ke format kora
       const payload = {
         ...formData,
         price: formData.price ? Number(formData.price) : undefined,
@@ -57,7 +55,7 @@ export default function EditMealModal({
       if (res.success) {
         toast.success("Meal updated successfully!");
         setOpen(false);
-        onUpdate(); // UI refresh korar jonno
+        onUpdate();
       } else {
         toast.error(res.message || "Failed to update");
       }
@@ -84,7 +82,6 @@ export default function EditMealModal({
           <DialogTitle>Edit Meal Details</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          {/* Title */}
           <div className="grid gap-2">
             <Label htmlFor="title">Meal Name</Label>
             <Input
@@ -96,7 +93,6 @@ export default function EditMealModal({
             />
           </div>
 
-          {/* Price */}
           <div className="grid gap-2">
             <Label htmlFor="price">Price (৳)</Label>
             <Input
@@ -109,7 +105,6 @@ export default function EditMealModal({
             />
           </div>
 
-          {/* Availability Status */}
           <div className="grid gap-2">
             <Label>Availability</Label>
             <Select
@@ -128,7 +123,6 @@ export default function EditMealModal({
             </Select>
           </div>
 
-          {/* Image URL (Optional) */}
           <div className="grid gap-2">
             <Label htmlFor="image">Image URL</Label>
             <Input

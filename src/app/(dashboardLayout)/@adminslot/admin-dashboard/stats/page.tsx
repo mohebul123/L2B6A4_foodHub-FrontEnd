@@ -11,29 +11,30 @@ export default async function AdminStatsGrid() {
       title: "Total Customers",
       value: stats?.totalUsers || 0,
       icon: Users,
-      color: "text-blue-600",
-      bg: "bg-blue-50",
+
+      color: "text-blue-600 dark:text-blue-400",
+      bg: "bg-blue-50 dark:bg-blue-950/40",
     },
     {
       title: "Total Providers",
       value: stats?.totalProviders || 0,
       icon: Utensils,
-      color: "text-orange-600",
-      bg: "bg-orange-50",
+      color: "text-orange-600 dark:text-orange-400",
+      bg: "bg-orange-50 dark:bg-orange-950/40",
     },
     {
       title: "Total Orders",
       value: stats?.totalOrders || 0,
       icon: ShoppingBag,
-      color: "text-green-600",
-      bg: "bg-green-50",
+      color: "text-green-600 dark:text-green-400",
+      bg: "bg-green-50 dark:bg-green-950/40",
     },
     {
       title: "Active Kitchens",
       value: stats?.activeRestaurants || 0,
       icon: Store,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
+      color: "text-purple-600 dark:text-purple-400",
+      bg: "bg-purple-50 dark:bg-purple-950/40",
     },
   ];
 
@@ -42,20 +43,24 @@ export default async function AdminStatsGrid() {
       {cards.map((card, idx) => (
         <Card
           key={idx}
-          className="shadow-sm border-none bg-white hover:shadow-md transition-shadow"
+          className="shadow-sm border bg-card text-card-foreground hover:shadow-md transition-all duration-200 rounded-xl"
         >
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               {card.title}
             </CardTitle>
-            <div className={`p-2 rounded-lg ${card.bg}`}>
+            <div className={`p-2.5 rounded-xl ${card.bg} transition-colors`}>
               <card.icon className={`h-5 w-5 ${card.color}`} />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-gray-800 tracking-tight">
+          <CardContent className="pt-2">
+            <div className="text-3xl font-extrabold tracking-tight text-foreground">
               {card.value.toLocaleString()}
             </div>
+
+            <p className="text-xs text-muted-foreground mt-1">
+              Platform aggregate sync
+            </p>
           </CardContent>
         </Card>
       ))}

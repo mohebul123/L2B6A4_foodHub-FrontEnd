@@ -35,20 +35,20 @@ export default function ProviderMeals() {
   }, [fetchMeals]);
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold">My Menus 🍳</h2>
+    <div className="p-4 space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold text-foreground">My Menus 🍳</h2>
         <Link href="/provider-dashboard/add-meal">
-          <Button className="bg-orange-600 hover:bg-orange-700">
+          <Button className="bg-orange-600 hover:bg-orange-700 text-white dark:bg-orange-600 dark:hover:bg-orange-700">
             Add New Meal
           </Button>
         </Link>
       </div>
 
-      <div className="border rounded-lg shadow-sm bg-white">
+      <div className="border border-border rounded-lg shadow-sm bg-card transition-colors duration-300 overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="border-b border-border bg-muted/30 hover:bg-muted/30">
               <TableHead>Meal Name</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Status</TableHead>
@@ -59,26 +59,31 @@ export default function ProviderMeals() {
             {loading ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center py-10">
-                  <span className="animate-pulse text-slate-500 font-medium">
+                  <span className="animate-pulse text-muted-foreground font-medium">
                     Fetching your meals...
                   </span>
                 </TableCell>
               </TableRow>
             ) : meals && meals.length > 0 ? (
               meals.map((meal: any) => (
-                <TableRow key={meal.id || meal._id}>
-                  <TableCell className="font-medium">
+                <TableRow
+                  key={meal.id || meal._id}
+                  className="border-b border-border/60 text-foreground"
+                >
+                  <TableCell className="font-medium text-foreground">
                     {meal.title || meal.name}
                   </TableCell>
-                  <TableCell>৳ {meal.price}</TableCell>
+                  <TableCell className="text-foreground">
+                    ৳ {meal.price}
+                  </TableCell>
                   <TableCell>
                     {meal.isAvailable ? (
-                      <span className="text-green-600 font-medium bg-green-50 px-2 py-1 rounded text-xs">
-                        ✅ Available
+                      <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 font-medium bg-green-500/15 border border-green-500/20 px-2 py-0.5 rounded text-xs">
+                        Available
                       </span>
                     ) : (
-                      <span className="text-red-500 font-medium bg-red-50 px-2 py-1 rounded text-xs">
-                        ❌ Out of Stock
+                      <span className="inline-flex items-center gap-1 text-red-600 dark:text-red-400 font-medium bg-red-500/15 border border-red-500/20 px-2 py-0.5 rounded text-xs">
+                        Out of Stock
                       </span>
                     )}
                   </TableCell>
@@ -96,9 +101,9 @@ export default function ProviderMeals() {
               <TableRow>
                 <TableCell
                   colSpan={4}
-                  className="text-center py-10 text-slate-500"
+                  className="text-center py-10 text-muted-foreground"
                 >
-                  You havent added any meals yet.
+                  You haven&apos;t added any meals yet.
                 </TableCell>
               </TableRow>
             )}

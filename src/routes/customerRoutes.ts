@@ -7,7 +7,7 @@ export const customerRoutes = [
         url: "/customer-dashboard",
       },
       {
-        title: "Profile Settings",
+        title: "Profile",
         url: "/customer-dashboard/profile",
       },
     ],

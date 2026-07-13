@@ -50,59 +50,75 @@ export default function AddMealPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl border shadow-sm mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-orange-600">
+    <div className="max-w-2xl mx-auto p-6 bg-card text-foreground rounded-xl border border-border shadow-sm mt-10 transition-colors duration-300">
+      <h2 className="text-2xl font-bold mb-6 text-orange-600 dark:text-orange-500">
         Post New Cuisine 🍲
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="text-sm font-medium">Meal Title</label>
+          <label className="text-sm font-medium text-foreground">
+            Meal Title
+          </label>
           <input
             {...register("title")}
-            className="w-full p-2 border rounded-md mt-1 outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-2 border border-input bg-background text-foreground rounded-md mt-1 outline-none transition-all focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
             required
           />
         </div>
 
         <div>
-          <label className="text-sm font-medium">Description</label>
+          <label className="text-sm font-medium text-foreground">
+            Description
+          </label>
           <textarea
             {...register("description")}
-            className="w-full p-2 border rounded-md mt-1 h-24 outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-2 border border-input bg-background text-foreground rounded-md mt-1 h-24 outline-none transition-all focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
           />
         </div>
 
         <div>
-          <label className="text-sm font-medium">Image URL (Optional)</label>
+          <label className="text-sm font-medium text-foreground">
+            Image URL (Optional)
+          </label>
           <input
             {...register("image")}
-            className="w-full p-2 border rounded-md mt-1 outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-2 border border-input bg-background text-foreground rounded-md mt-1 outline-none transition-all focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-sm font-medium">Price (৳)</label>
+            <label className="text-sm font-medium text-foreground">
+              Price (৳)
+            </label>
             <input
               {...register("price")}
               type="number"
-              className="w-full p-2 border rounded-md mt-1 outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full p-2 border border-input bg-background text-foreground rounded-md mt-1 outline-none transition-all focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
               required
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium">Cuisine Type</label>
+            <label className="text-sm font-medium text-foreground">
+              Cuisine Type
+            </label>
             <select
               {...register("categoryId")}
-              className="w-full p-2 border rounded-md mt-1 outline-none focus:ring-2 focus:ring-orange-500 bg-white"
+              className="w-full p-2 border border-input bg-background text-foreground rounded-md mt-1 outline-none transition-all focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
               required
             >
-              <option value="">Select Cuisine</option>
+              <option value="" className="bg-background text-muted-foreground">
+                Select Cuisine
+              </option>
               {categories.map((cat: any) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}{" "}
+                <option
+                  key={cat.id}
+                  value={cat.id}
+                  className="bg-card text-foreground"
+                >
+                  {cat.name}
                 </option>
               ))}
             </select>
@@ -121,7 +137,7 @@ export default function AddMealPage() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="flex-1 bg-orange-600 hover:bg-orange-700 text-white"
+            className="flex-1 bg-orange-600 hover:bg-orange-700 text-white dark:bg-orange-600 dark:hover:bg-orange-700"
           >
             {isSubmitting ? "Posting..." : "Post Meal"}
           </Button>

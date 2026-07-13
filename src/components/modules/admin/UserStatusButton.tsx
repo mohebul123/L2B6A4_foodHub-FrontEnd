@@ -25,7 +25,7 @@ export function UserStatusButton({ userId, status }: UserStatusButtonProps) {
         toast.success(
           `User is now ${status === "ACTIVE" ? "SUSPENDED" : "ACTIVE"}`,
         );
-        router.refresh(); // 🔥 Server-side data refresh korbe
+        router.refresh();
       } else {
         toast.error(res.message || "Something went wrong");
       }

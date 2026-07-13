@@ -15,18 +15,20 @@ export default async function ProviderOrdersPage() {
   const orders = result?.data || [];
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold">Incoming Orders 🛒</h2>
+    <div className="p-6 space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-foreground">
+          Incoming Orders 🛒
+        </h2>
         <p className="text-muted-foreground text-sm">
           Manage and track your customer orders.
         </p>
       </div>
 
-      <div className="border rounded-lg bg-white shadow-sm overflow-hidden">
+      <div className="border border-border rounded-lg bg-card shadow-sm overflow-hidden transition-colors duration-300">
         <Table>
           <TableHeader>
-            <TableRow className="bg-slate-50">
+            <TableRow className="border-b border-border bg-muted/30 hover:bg-muted/30">
               <TableHead>Order ID</TableHead>
               <TableHead>Customer</TableHead>
               <TableHead>Meal Details</TableHead>

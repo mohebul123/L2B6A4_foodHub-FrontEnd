@@ -6,10 +6,6 @@ export const providerRoutes: Route[] = [
 
     items: [
       {
-        title: "Edit-Profile",
-        url: "/provider-dashboard/profile/update-profile",
-      },
-      {
         title: "Profile",
         url: "/provider-dashboard/profile",
       },

@@ -28,16 +28,14 @@ export default function OrderRow({ order }: { order: any }) {
   };
 
   return (
-    <TableRow>
-      {/* 1. Order ID */}
-      <TableCell className="font-mono text-xs">
+    <TableRow className="border-b border-border/60 text-foreground">
+      <TableCell className="font-mono text-xs text-muted-foreground">
         #{order.id?.slice(-6).toUpperCase()}
       </TableCell>
 
-      {/* 2. Customer Info */}
       <TableCell>
         <div className="flex flex-col">
-          <span className="font-medium text-sm">
+          <span className="font-medium text-sm text-foreground">
             {order.customer?.name || "N/A"}
           </span>
           <span className="text-xs text-muted-foreground">
@@ -46,17 +44,16 @@ export default function OrderRow({ order }: { order: any }) {
         </div>
       </TableCell>
 
-      {/* 3. Meal Details */}
       <TableCell>
         <div className="flex flex-wrap gap-1">
           {order.orderItems?.map((item: any) => (
             <Badge
               key={item.id}
               variant="outline"
-              className="text-[10px] bg-slate-50"
+              className="text-[10px] bg-muted/40 text-foreground border-border"
             >
               {item.meal?.title}{" "}
-              <span className="ml-1 font-bold text-orange-600">
+              <span className="ml-1 font-bold text-orange-600 dark:text-orange-500">
                 x{item.quantity}
               </span>
             </Badge>
@@ -65,19 +62,21 @@ export default function OrderRow({ order }: { order: any }) {
       </TableCell>
 
       {/* 4. Price */}
-      <TableCell className="font-semibold text-sm text-slate-700">
+
+      <TableCell className="font-semibold text-sm text-foreground">
         ৳{order.totalAmount}
       </TableCell>
 
       {/* 5. Status */}
       <TableCell>
         <Badge
+          variant="outline"
           className={
             order.status === "PLACED"
-              ? "bg-blue-100 text-blue-700 hover:bg-blue-100"
+              ? "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30"
               : order.status === "DELIVERED"
-                ? "bg-green-100 text-green-700 hover:bg-green-100"
-                : "bg-orange-100 text-orange-700 hover:bg-orange-100"
+                ? "bg-green-500/15 text-green-600 dark:text-green-400 border-green-500/30"
+                : "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/30"
           }
         >
           {order.status}
@@ -91,15 +90,22 @@ export default function OrderRow({ order }: { order: any }) {
             <Button
               variant="outline"
               size="sm"
-              className="text-orange-600 border-orange-200"
+              className="text-orange-600 border-orange-500/30 hover:bg-orange-500/10 hover:text-orange-600 dark:text-orange-400 dark:border-orange-500/20"
             >
               Update
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent
+            align="end"
+            className="bg-card text-foreground border-border"
+          >
             {["PLACED", "PREPARING", "READY", "DELIVERED", "CANCELLED"].map(
               (s) => (
-                <DropdownMenuItem key={s} onClick={() => handleUpdateStatus(s)}>
+                <DropdownMenuItem
+                  key={s}
+                  onClick={() => handleUpdateStatus(s)}
+                  className="focus:bg-muted focus:text-foreground cursor-pointer"
+                >
                   {s}
                 </DropdownMenuItem>
               ),

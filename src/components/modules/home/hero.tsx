@@ -8,24 +8,20 @@ export async function HeroSection() {
   const user = await getUser();
 
   return (
-    // Height fixed kora hoyeche (min-h-[80vh]) jate boro dekhay
     <section className="relative w-full min-h-[70vh] lg:min-h-[85vh] flex items-center overflow-hidden bg-foreground">
-      {/* Background image container */}
       <div className="absolute inset-0">
         <Image
           src="/cover.png"
           alt="Hero Food"
           fill
-          // object-cover image-ke resize hote dibe na
           className="object-cover opacity-40"
           priority
           sizes="100vw"
         />
-        {/* Gradient overlay */}
+
         <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/70 to-transparent" />
       </div>
 
-      {/* Content Area - eita ekhon vertical center thakbe */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-2xl">
           <span className="mb-6 inline-block rounded-full bg-primary/20 px-4 py-1.5 text-sm font-semibold text-primary">
@@ -49,7 +45,6 @@ export async function HeroSection() {
               </Link>
             </Button>
 
-            {/* User Login Logic */}
             {user?.role === "CUSTOMER" && (
               <Button
                 size="lg"

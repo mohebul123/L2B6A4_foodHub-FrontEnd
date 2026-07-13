@@ -4,9 +4,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Star, Loader2 } from "lucide-react"; // Loader2 add kora hoyeche
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 // import { Textarea } from "@/components/ui/textarea";
-import { createReview } from "@/app/service/review"; 
+import { createReview } from "@/app/service/review";
 
 export function ReviewModal({ mealId }: { mealId: string }) {
   const [rating, setRating] = useState(0);
@@ -14,16 +20,15 @@ export function ReviewModal({ mealId }: { mealId: string }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  // ✅ EIKHANE TOMAR FUNCTION TA THAKBE
   const handleSubmit = async () => {
     if (rating === 0) return toast.error("Please select a rating!");
     setLoading(true);
 
     try {
-      const res = await createReview({ 
-        mealId, 
-        rating, 
-        comment 
+      const res = await createReview({
+        mealId,
+        rating,
+        comment,
       });
 
       if (res.success) {
@@ -45,7 +50,9 @@ export function ReviewModal({ mealId }: { mealId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">Write a Review</Button>
+        <Button variant="outline" size="sm">
+          Write a Review
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -58,7 +65,9 @@ export function ReviewModal({ mealId }: { mealId: string }) {
                 key={star}
                 size={30}
                 className={`cursor-pointer transition-colors ${
-                  rating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                  rating >= star
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-gray-300"
                 }`}
                 onClick={() => setRating(star)}
               />
@@ -70,13 +79,8 @@ export function ReviewModal({ mealId }: { mealId: string }) {
             onChange={(e) => setComment(e.target.value)}
             className="min-h-[100px]"
           />
-          
-          {/* ✅ Button-e Loading State add kora hoyeche */}
-          <Button 
-            onClick={handleSubmit} 
-            disabled={loading} 
-            className="w-full"
-          >
+
+          <Button onClick={handleSubmit} disabled={loading} className="w-full">
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

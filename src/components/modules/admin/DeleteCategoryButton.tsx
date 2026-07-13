@@ -17,13 +17,12 @@ export function DeleteCategoryButton({ id }: { id: string }) {
       try {
         const res = await deleteCategory(id);
 
-        console.log("Response from server:", res); // Debugging er jonno
+        console.log("Response from server:", res);
 
         if (res && res.success === true) {
           toast.success(res.message || "Category deleted successfully!");
           router.refresh();
         } else {
-          // Backend e status 400 holeo res.success false ashar kotha
           toast.error(res?.message || "Cannot delete category with meals!");
         }
       } catch (error) {

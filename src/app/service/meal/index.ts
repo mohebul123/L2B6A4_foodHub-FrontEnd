@@ -10,9 +10,25 @@ const getToken = async () => {
   return storeCookies.get("token")?.value;
 };
 
-export const getAllmeals = async () => {
+// Gladiator Rule: Dynamic backend-ready query arguments passage
+export const getAllmeals = async (queries?: {
+  search?: string;
+  category?: string;
+  sort?: string;
+  page?: number; // 🎯 Added page type definition
+  limit?: number; // 🎯 Added limit type definition
+}) => {
   try {
-    const res = await fetch(`${env.BASE_URL}/meals`, {
+    const params = new URLSearchParams();
+    if (queries?.search) params.append("search", queries.search);
+    if (queries?.category) params.append("category", queries.category);
+    if (queries?.sort) params.append("sort", queries.sort);
+    if (queries?.page) params.append("page", String(queries.page)); // 🎯 Appending current page token
+    if (queries?.limit) params.append("limit", String(queries.limit)); // 🎯 Appending limit value
+
+    const url = `${env.BASE_URL}/meals?${params.toString()}`;
+
+    const res = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +56,6 @@ export const addMeal = async (mealData: any) => {
     });
     return await res.json();
   } catch (error) {
-    console.log("test", `${env.BASE_URL}/meals/`);
     console.log(error);
     return { success: false, message: "Meal addition failed" };
   }
